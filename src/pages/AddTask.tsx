@@ -11,6 +11,7 @@ import { useStorageState } from "../hooks/useStorageState";
 import { useTheme } from "@emotion/react";
 import { getFontColor, showToast } from "../utils";
 import { ColorPalette } from "../theme/themeConfig";
+import { WeightSelect } from "../components/WeightSelect";
 
 const AddTask = () => {
   const { user, setUser } = useContext(UserContext);
@@ -31,6 +32,7 @@ const AddTask = () => {
     "categories",
     "sessionStorage",
   );
+  const [selectedWeight, setSelectedWeight] = useState<string>("");
 
   const n = useNavigate();
 
@@ -100,6 +102,7 @@ const AddTask = () => {
       date: new Date(),
       deadline: deadline !== "" ? new Date(deadline) : undefined,
       category: selectedCategories ? selectedCategories : [],
+      weight: selectedWeight ? selectedWeight : "",
     };
 
     setUser((prevUser) => ({
@@ -120,6 +123,10 @@ const AddTask = () => {
 
     const itemsToRemove = ["name", "color", "description", "emoji", "deadline", "categories"];
     itemsToRemove.map((item) => sessionStorage.removeItem(item));
+  };
+
+  const handleWeightChange = (weight: string) => {
+    setSelectedWeight(weight);
   };
 
   return (
@@ -207,6 +214,11 @@ const AddTask = () => {
             />
           </div>
         )}
+        <WeightSelect
+          selectedWeight={selectedWeight}
+          onWeightChange={handleWeightChange}
+          width="400px"
+        />
         <ColorPicker
           color={color}
           width="400px"

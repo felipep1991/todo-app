@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import {
+  CalendarMonth,
   Cancel,
   Close,
   ContentCopy,
@@ -62,6 +63,7 @@ import {
 import { useTheme } from "@emotion/react";
 import { TaskContext } from "../../contexts/TaskContext";
 import { ColorPalette } from "../../theme/themeConfig";
+import { calculateScore, Weight } from "../../utils/calculateScore";
 
 export const TaskMenu = () => {
   const { user, setUser } = useContext(UserContext);
@@ -149,10 +151,17 @@ export const TaskMenu = () => {
         }
         return task;
       });
-      setUser((prevUser) => ({
-        ...prevUser,
-        tasks: updatedTasks,
-      }));
+
+      setUser((prevUser) => {
+        const task = prevUser.tasks.find((t) => t.id === selectedTaskId);
+        const points = task && !task.done ? calculateScore(task.weight as Weight) : 0; // Calcula pontos apenas se a tarefa não estava concluída
+
+        return {
+          ...prevUser,
+          tasks: updatedTasks,
+          score: (prevUser.score || 0) + points, // Atualiza o score
+        };
+      });
 
       const allTasksDone = updatedTasks.every((task) => task.done);
 
@@ -335,6 +344,10 @@ export const TaskMenu = () => {
       <StyledMenuItem onClick={handleMarkAsDone}>
         {selectedTask.done ? <Close /> : <Done />}
         &nbsp; {selectedTask.done ? "Mark as not done" : "Mark as done"}
+      </StyledMenuItem>
+      <StyledMenuItem onClick={() => Promise.resolve()}>
+        <CalendarMonth />
+        &nbsp; Sync with calendar
       </StyledMenuItem>
       <StyledMenuItem onClick={handlePin}>
         <PushPinRounded sx={{ textDecoration: "line-through" }} />

@@ -59,6 +59,7 @@ import {
   TaskInfo,
   TaskName,
   TasksContainer,
+  TaskWeight,
   TimeLeft,
 } from "./tasks.styled";
 
@@ -502,6 +503,7 @@ export const TasksList: React.FC = () => {
                 <TaskDescription done={task.done}>
                   <RenderTaskDescription task={task} />
                 </TaskDescription>
+                <TaskWeight>{task.weight}</TaskWeight>
 
                 {task.deadline && (
                   <Tooltip

@@ -21,6 +21,7 @@ export interface User {
   settings: AppSettings[];
   theme: string;
   darkmode: DarkModeOptions;
+  score?: number;
 }
 
 /**
@@ -39,16 +40,8 @@ export interface Task {
   category?: Category[];
   lastSave?: Date;
   sharedBy?: string;
+  weight?: string;
 }
-
-// export type Emoji = Omit<
-//   EmojiClickData,
-//   "activeSkinTone" | "names" | "unifiedWithoutSkinTone" | "getImageUrl"
-// > & {
-//   name: string;
-// };
-
-// export type Emoji = Pick<EmojiClickData, "unified" | "emoji" | "names">;
 
 /**
  * Represents a category in the application.

@@ -94,6 +94,14 @@ export const TaskDate = styled.p`
   backdrop-filter: none !important;
 `;
 
+export const TaskWeight = styled.div`
+  font-size: 14px;
+  color: #000;
+  margin-top: 8px;
+  font-weight: bold;
+  display: inline-block;
+`;
+
 export const TaskDescription = styled.div<{ done: boolean }>`
   margin: 0;
   font-size: 18px;

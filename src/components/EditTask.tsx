@@ -18,6 +18,7 @@ import { Category, Task } from "../types/user";
 import { showToast } from "../utils";
 import { useTheme } from "@emotion/react";
 import { ColorPalette } from "../theme/themeConfig";
+import { WeightSelect } from "./WeightSelect";
 
 interface EditTaskProps {
   open: boolean;
@@ -32,6 +33,7 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
   const [editedTask, setEditedTask] = useState<Task | undefined>(task);
   const [emoji, setEmoji] = useState<string | null>(null);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [selectedWeight, setSelectedWeight] = useState<string>("");
 
   const theme = useTheme();
 
@@ -56,7 +58,10 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
   // Effect hook to update the editedTask when the task prop changes.
   useEffect(() => {
     setEditedTask(task);
-    setSelectedCategories(task?.category as Category[]);
+    if(task){
+      setSelectedCategories(task.category as Category[]);
+      setSelectedWeight(task.weight as string);
+    }
   }, [task]);
 
   // Event handler for input changes in the form fields.
@@ -110,6 +115,10 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [editedTask, open, task]);
+
+  const handleWeightChange = (weight: string) => {
+    setSelectedWeight(weight);
+  };
 
   return (
     <Dialog
@@ -239,6 +248,11 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
             onCategoryChange={(categories) => setSelectedCategories(categories)}
           />
         )}
+        <WeightSelect
+          selectedWeight={selectedWeight}
+          onWeightChange={handleWeightChange}
+          width="400px"
+        />
         <div
           style={{
             display: "flex",

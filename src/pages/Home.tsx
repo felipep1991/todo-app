@@ -22,6 +22,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useResponsiveDisplay } from "../hooks/useResponsiveDisplay";
 import { useNavigate } from "react-router-dom";
 import { TaskProvider } from "../contexts/TaskProvider";
+import Score from "../components/score";
 
 const TasksList = lazy(() =>
   import("../components/tasks/TasksList").then((module) => ({ default: module.TasksList })),
@@ -33,6 +34,7 @@ const Home = () => {
   const [randomGreeting, setRandomGreeting] = useState<string | ReactNode>("");
   const [greetingKey, setGreetingKey] = useState<number>(0);
   const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
+  // const [score, setScore] = useState<number>(user.score ?? 0);
 
   const [tasksWithDeadlineTodayCount, setTasksWithDeadlineTodayCount] = useState<number>(0);
   const [tasksDueTodayNames, setTasksDueTodayNames] = useState<string[]>([]);
@@ -115,6 +117,7 @@ const Home = () => {
         )}
       </GreetingHeader>
       <GreetingText key={greetingKey}>{renderGreetingWithEmojis(randomGreeting)}</GreetingText>
+      <Score score={user.score ?? 0} />
       {!isOnline && (
         <Offline>
           <WifiOff /> You're offline but you can use the app!
